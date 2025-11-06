@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% set page = "profile" %}
+{% block title %}@{{ user.username }} - NapSe{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+
+  <div class="profile-avatar"
+       style="background-image:url('/static/assets/placeholder/placeholder.svg');"></div>
+
+  <h2 class="profile-username">@{{ user.username }}</h2>
+
+  <!-- Botão de amizade -->
+  <div id="friend-btn-wrap-{{ user.id }}"></div>
+
+  <!-- Enviar Mensagem -->
+  <button class="profile-action-btn"
+          onclick="window.location.href='{{ url_for('chat.start_chat', user_id=user.id) }}'">
+    Enviar Mensagem
+  </button>
+
+</div>
+
+<script>
+  // Necessário para o mountFriendButton()
+  window.profileUserId = {{ profile_user_id }};
+</script>
+{% endblock %}

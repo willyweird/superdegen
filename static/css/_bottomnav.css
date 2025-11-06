@@ -1,0 +1,161 @@
+.bottom-nav{
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: calc(var(--bn-h) + var(--safe-bot));
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: var(--glass);
+  backdrop-filter: blur(var(--blur)) saturate(1.15);
+  border-top: 1px solid var(--glass-line);
+  padding-bottom: var(--safe-bot);
+  z-index: 95;
+}
+
+.bn-item{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--bn-h);
+  background: none;
+  border: none;
+}
+
+.bn-item img{
+  width: 24px;
+  height: 24px;
+  opacity: .60;
+  transition: opacity .22s ease, transform .18s ease, filter .22s ease;
+}
+.bn-item:hover img{
+  opacity: 1;
+  filter: brightness(1.12);
+}
+.bn-item:active img{ transform: scale(.92); }
+
+/* ✅ BOTÃO + (SEM BACKGROUND, ANIMAÇÃO RADIAL) */
+.add-btn{
+  position: relative;
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.add-btn img{
+  width: 28px;
+  height: 28px;
+  opacity: .80;
+  transition: opacity .22s ease, transform .22s ease;
+}
+
+.add-btn:hover img{
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.add-btn:active img{
+  transform: scale(.92);
+}
+
+/* 🌊 ON-CLICK WAVE EFFECT */
+.add-btn::after{
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  transform: scale(1);
+  pointer-events: none;
+}
+
+.add-btn.animate::after{
+  animation: pulseWave .45s ease-out forwards;
+}
+
+@keyframes pulseWave{
+  0%{
+    opacity: .35;
+    transform: scale(1);
+  }
+  100%{
+    opacity: 0;
+    transform: scale(8);
+  }
+}
+
+/* ===========================
+   MODO MOBILE (já existente)
+   - nada muda aqui
+=========================== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: calc(var(--bn-h) + var(--safe-bot));
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: var(--glass);
+  backdrop-filter: blur(var(--blur)) saturate(1.15);
+  border-top: 1px solid var(--glass-line);
+  padding-bottom: var(--safe-bot);
+  z-index: 95;
+}
+
+/* ===========================
+   MODO DESKTOP (TELAS GRANDES)
+=========================== */
+@media (min-width: 768px) {
+
+  .bottom-nav {
+    top: 0;
+    bottom: unset;
+
+    left: 0;
+    right: unset;
+
+    width: 70px;              /* LARGURA SLIM */
+    height: 100vh;            /* COBRE ALTURA TOTAL */
+
+    flex-direction: column;   /* Ícones em coluna */
+    justify-content: flex-start;
+    gap: 26px;                /* Espaçamento entre botões */
+
+    padding: 18px 0;
+
+    border-top: none;         /* Tira borda superior */
+    border-right: 1px solid var(--glass-line); /* Borda lateral */
+  }
+
+  .bn-item {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    padding: 14px 0;
+  }
+
+  /* Ícones levemente maiores no desktop */
+  .bn-item img,
+  .add-btn img {
+    width: 24px;
+    height: 24px;
+    opacity: .75;
+    transition: opacity .22s ease, transform .22s ease;
+  }
+
+  .bn-item:hover img,
+  .add-btn:hover img {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+
+  /* Corrige botão + para desktop */
+  .add-btn {
+    margin-top: 20px;
+  }
+
+}

@@ -1,0 +1,103 @@
+/* ==============================
+   SEARCH PAGE — usa o mesmo layout geral do app
+=================================*/
+
+.search-page {
+  width: 100%;
+  max-width: 520px;  /* mesmo container do app */
+  margin: 0 auto;    /* centraliza igual todas páginas */
+}
+
+/* Barra de busca */
+.search-box {
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+.search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  border-radius: 14px;
+  margin-top: 20px;
+
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(var(--blur));
+
+  font-size: 0.97rem;
+  outline: none;
+  transition: border .25s, background .25s;
+}
+
+.search-input:focus {
+  border-color: var(--accent);
+  background: rgba(255,255,255,0.22);
+}
+
+/* Resultados */
+.search-results {
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* CARD DO USUÁRIO */
+.search-user-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 12px 14px;
+  border-radius: 14px;
+
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(var(--blur));
+  transition: background .22s ease;
+}
+
+.search-user-item:hover {
+  background: rgba(255,255,255,0.16);
+}
+
+/* Lado esquerdo */
+.search-user-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Avatar */
+.search-user-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-image: url('/static/assets/placeholder/placeholder.svg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Nome */
+.search-user-name {
+  font-size: .95rem;
+  font-weight: 500;
+}
+
+/* Botão */
+.search-add-btn {
+  padding: 6px 14px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-size: .85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform .2s, filter .2s;
+}
+
+.search-add-btn:hover { filter: brightness(1.12); }
+.search-add-btn:active { transform: scale(.94); }

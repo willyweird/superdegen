@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% set page = "chat" %}
+{% block content %}
+<div class="page-section">
+  <h2 class="page-title">Mensagens</h2>
+
+  <div class="chat-list">
+    {% if chats %}
+      {% for c in chats %}
+      <a href="{{ url_for('chat.chat_room', thread_id=c.id) }}" class="chat-item">
+        <div class="chat-name">@{{ c.username }}</div>
+        <div class="chat-last-msg">{{ c.last }}</div>
+      </a>
+      {% endfor %}
+    {% else %}
+      <p class="empty-state">Nenhuma conversa ainda.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

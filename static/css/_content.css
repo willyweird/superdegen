@@ -1,0 +1,149 @@
+/* =========================
+   CONTENT (MOBILE)
+========================= */
+.content {
+  flex: 1;
+  padding-top: calc(var(--nav-h) + var(--safe-top) + 14px);
+  padding-bottom: calc(var(--bn-h) + var(--safe-bot) + 14px);
+  padding-left: 14px;
+  padding-right: 14px;
+  transition: padding .25s ease;
+}
+
+/* Quando estiver na página de visualização de álbum,
+   o título já cria espaçamento natural */
+body[data-page="album-view"] .content {
+  padding-top: calc(var(--nav-h) + var(--safe-top) + 6px);
+}
+
+/* =========================
+   CONTENT (DESKTOP)
+========================= */
+@media (min-width: 920px) {
+  .content {
+    padding-top: calc(var(--nav-h) + var(--safe-top) + 16px);
+    padding-bottom: 32px;
+    padding-left: calc(82px + 28px);
+    padding-right: 32px;
+  }
+}
+
+
+
+  /* Títulos bem alinhados após sidebar */
+.page-title {
+    margin-left: 6px;
+    margin-right: 0;
+  }
+
+
+  .album-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 8px 14px;
+}
+
+.album-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(var(--blur));
+  cursor: pointer;
+  transition: .25s var(--ease);
+}
+
+.btn-icon:hover {
+  opacity: .85;
+}
+
+.album-members-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 2px;
+  min-height: 36px;
+}
+
+
+.album-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 10px 14px 6px;
+}
+
+.album-header .left {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.btn-icon {
+  background:none;
+  border:none;
+  padding:4px;
+  cursor:pointer;
+  opacity:.7;
+  transition:.2s;
+}
+.btn-icon:hover { opacity:1; transform:scale(1.1); }
+
+/* AVATARES */
+.member-avatars {
+  display:flex;
+  gap:6px;
+}
+.member-avatars .avatar {
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+/* MENU (+) */
+.options-menu {
+  position:absolute;
+  right:14px;
+  top:60px;
+  display:none;
+  flex-direction:column;
+  background:var(--glass);
+  border:1px solid var(--glass-line);
+  backdrop-filter:blur(var(--blur));
+  border-radius:14px;
+  padding:6px;
+  z-index:2000;
+}
+.options-menu.show { display:flex; }
+
+.options-menu button {
+  background:none;
+  border:none;
+  padding:10px 14px;
+  text-align:left;
+  font-size:.9rem;
+  border-radius:10px;
+  cursor:pointer;
+}
+.options-menu button:hover {
+  background:rgba(255,255,255,0.12);
+}
+
+/* MODO SELEÇÃO PARA CAPA */
+.photo-item.select-mode img {
+  outline:3px solid var(--accent);
+  opacity:.85;
+  transition:.2s;
+}

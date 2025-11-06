@@ -1,0 +1,90 @@
+.navbar{
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: calc(var(--nav-h) + var(--safe-top));
+  padding: calc(10px + var(--safe-top)) 16px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--glass);
+  backdrop-filter: blur(var(--blur)) saturate(1.15);
+  border-bottom: 1px solid var(--glass-line);
+  z-index: 100;
+}
+
+.logo a{
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  opacity: .85;
+  transition: opacity .22s ease;
+}
+.logo a:hover{ opacity: 1; }
+
+/* ÍCONES NAVBAR */
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nav-icons a,
+.icon-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+}
+
+.nav-icons img,
+.icon-btn img{
+  width: 24px;
+  height: 24px;
+  opacity: .60;
+  transition: opacity .22s ease, transform .18s ease, filter .22s ease;
+}
+.nav-icons a:hover img,
+.icon-btn:hover img{
+  opacity: 1;
+  filter: brightness(1.12);
+}
+.icon-btn:active img{ transform: scale(.92); }
+
+.nav-bell {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#notif-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--accent);
+  color: rgb(249, 249, 249);
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 10px;
+  display: none; /* oculto quando zero */
+}
+
+.nav-chat { position: relative; }
+#chat-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--accent);
+  color: white;
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+  display: none;
+}

@@ -1,0 +1,63 @@
+:root{
+  --ink: #e9ecf1;
+  --ink-soft: rgba(233,236,241,0.60);
+  --bg: #0f1216;
+  --glass: rgba(255,255,255,0.06);
+  --glass-line: rgba(255,255,255,0.10);
+  --blur: 18px;
+  --accent: #4D8DF7;
+  --menu-bg: rgba(20,22,26,0.96);
+  --menu-backdrop: rgba(0,0,0,.45);
+  --nav-h: 58px;
+  --bn-h: 58px;
+}
+
+/* ===== LIGHT MODE ===== */
+[data-theme="light"] {
+  /* Texto grafite premium */
+  --ink: #1d1f21;
+  --ink-soft: rgba(29,31,33,0.55);
+
+  /* Cinza Apple real */
+  --bg: #d4d5d8;
+
+  /* Vidro leite seco */
+  --glass: rgba(255,255,255,0.32);
+  --glass-line: rgba(0,0,0,0.10);
+  --blur: 18px;
+
+  /* Azul frio elegante */
+  --accent: #3a6dd8;
+
+  /* Menu cinza */
+  --menu-bg: rgba(230,231,234,0.78);
+  --menu-backdrop: rgba(0,0,0,0.14);
+}
+
+/* =========================================
+   ÍCONES — TEMA CORRETO
+========================================= */
+
+/* DARK MODE → ícones claros */
+[data-theme="dark"] .navbar img,
+[data-theme="dark"] .bottom-nav img,
+[data-theme="dark"] #side-menu img,
+[data-theme="dark"] #side-submenu img {
+  filter: brightness(1.05);
+}
+
+/* LIGHT MODE → ícones grafite */
+[data-theme="light"] .navbar img,
+[data-theme="light"] .bottom-nav img,
+[data-theme="light"] #side-menu img,
+[data-theme="light"] #side-submenu img {
+  filter: brightness(0.25) contrast(1.2);
+}
+
+/* Safe areas */
+@supports(padding:max(0px)){
+  :root{
+    --safe-top:max(env(safe-area-inset-top),0px);
+    --safe-bot:max(env(safe-area-inset-bottom),0px);
+  }
+}

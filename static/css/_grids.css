@@ -1,0 +1,223 @@
+/* =========================================
+   GRID (ÁLBUNS & FOTOS) — PADRÃO NAPSE
+   -> Coloque este bloco no _grids.css
+========================================= */
+
+/* CONTÊINER DOS GRIDS */
+.album-grid,
+.photo-grid {
+  display: grid;
+  grid-auto-flow: row dense;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 15px;
+}
+
+/* tablet/desktop */
+@media (min-width: 768px) {
+  .album-grid,
+  .photo-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    padding: 12px;
+  }
+}
+
+/* =========================================
+   FILHOS DO GRID (evita empilhamento/estouro)
+   - MUITO IMPORTANTE para não quebrar o layout
+========================================= */
+.album-grid > .album-card {
+  display: block;        /* garante bloco real no grid */
+  min-width: 0;          /* evita overflow que estoura coluna */
+}
+
+.photo-grid > a {
+  display: block;        /* cada foto é um bloco no grid */
+  min-width: 0;
+  text-decoration: none; /* por simetria com album-card */
+  color: inherit;
+}
+
+/* =========================================
+   THUMB COMPARTILHADO (álbuns e fotos iguais)
+========================================= */
+.album-thumb,
+.photo-grid > a > div {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1; /* quadrado perfeito */
+  border-radius: 14px;
+  overflow: hidden;
+
+  background: #14171c;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 6px 18px rgba(0,0,0,.28);
+
+  transition:
+    transform .28s cubic-bezier(.25,.1,.25,1),
+    box-shadow .28s cubic-bezier(.25,.1,.25,1),
+    border-color .22s ease;
+  will-change: transform;
+}
+
+/* hover idêntico para ambos */
+.album-card:hover .album-thumb,
+.photo-grid > a:hover > div {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(0,0,0,.38);
+  border-color: var(--accent);
+}
+
+/* =========================================
+   IMAGENS
+========================================= */
+.album-thumb img,
+.photo-grid img {
+  display: block;     /* remove espaço inline */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* preenche sem distorcer */
+}
+
+/* =========================================
+   CARD DE ÁLBUM (legenda)
+========================================= */
+.album-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.album-name {
+  font-size: .92rem;
+  font-weight: 500;
+  opacity: .85;
+  padding-left: 2px;
+  text-align: center;
+}
+
+
+/* =========================================
+   COMPATIBILIDADE COM NOVA ESTRUTURA
+   (quando a foto está envolvida em .photo-item)
+========================================= */
+
+.photo-grid > .photo-item {
+  display: block;
+  min-width: 0;
+  position: relative;
+}
+
+/* Garantir quadrado */
+.photo-grid > .photo-item a {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #14171c;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 6px 18px rgba(0,0,0,.28);
+  transition:
+    transform .28s cubic-bezier(.25,.1,.25,1),
+    box-shadow .28s cubic-bezier(.25,.1,.25,1),
+    border-color .22s ease;
+}
+
+.photo-grid > .photo-item a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(0,0,0,.38);
+  border-color: var(--accent);
+}
+
+/* Ajuste da imagem dentro */
+.photo-grid > .photo-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Botão capa não muda layout, só flutua */
+.set-cover-btn {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  font-size: .75rem;
+  border-radius: 8px;
+  padding: 4px 8px;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+
+.drawer {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  right: 0;
+  background: var(--glass);
+  backdrop-filter: blur(var(--blur));
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  border: 1px solid var(--glass-line);
+  padding: 14px;
+  transition: bottom .35s var(--ease);
+  z-index: 3000;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.drawer.open {
+  bottom: 0;
+}
+
+.drawer-handle {
+  width: 44px;
+  height: 5px;
+  background: rgba(255,255,255,.45);
+  border-radius: 4px;
+  align-self: center;
+  margin-top: 4px;
+}
+
+.drawer-title {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: .88;
+}
+
+/* grid das fotos */
+.drawer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  overflow-y: auto;
+  padding-bottom: 10px;
+}
+
+.drawer-grid img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 12px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: .22s;
+}
+
+.drawer-grid img:hover {
+  transform: scale(.96);
+  opacity: .85;
+}

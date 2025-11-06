@@ -1,0 +1,20 @@
+/* static/css/style.css */
+
+/* Import Order (não altere a ordem) */
+@import url('./_vars.css');
+@import url('./_base.css');
+@import url('./_navbar.css');
+@import url('./_bottomnav.css');
+@import url('./_content.css');
+
+@import url('./_modal.css');
+@import url('./_side-menu.css');
+
+@import url('./_grids.css');
+@import url('./_search.css');
+@import url('./_chat.css');
+
+@import url('./_utils.css');
+@import url('./_auth.css');
+@import url("./_profile.css");
+

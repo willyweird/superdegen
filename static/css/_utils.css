@@ -1,0 +1,20 @@
+.empty-state {
+  text-align: center;
+  opacity: .65;
+  margin-top: 3rem;
+  font-size: .95rem;
+}
+
+/* === Páginas base === */
+.page-section { padding: 20px; }
+.center-text { text-align: center; }
+.page-title {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 1.32rem;
+  font-weight: 600;
+  letter-spacing: -.018em;
+  color: var(--ink);
+  text-align: center;
+  margin: 12px 0 22px 0;
+  margin-top: 15px;
+}

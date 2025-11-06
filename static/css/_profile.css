@@ -1,0 +1,55 @@
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(var(--nav-h) + 30px) 16px 30px;
+  text-align: center;
+  gap: 18px;
+}
+
+.profile-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid var(--glass-line);
+  background-color: rgba(255,255,255,0.1);
+}
+
+.profile-username {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.friend-btn,
+.msg-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 14px;
+  border: none;
+  font-size: .95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform .22s ease, filter .22s ease;
+}
+
+.friend-btn {
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+}
+
+.friend-btn:hover { filter: brightness(1.07); }
+.friend-btn.disabled { opacity: .5; pointer-events: none; }
+
+.msg-btn {
+  background: var(--accent);
+  color: #fff;
+  margin-top: -6px;
+}
+
+.msg-btn:active,
+.friend-btn:active {
+  transform: scale(.95);
+}

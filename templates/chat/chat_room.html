@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% set page = "chat" %}
+
+{# Remove a navbar e a bottom-nav nesta página #}
+{% block navbar %}{% endblock %}
+{% block bottom_nav %}{% endblock %}
+
+{% block title %}Chat - NapSe{% endblock %}
+
+{% block content %}
+<div class="chat-room">
+
+  <!-- HEADER DO CHAT -->
+  <div class="chat-header">
+    <button class="chat-back" onclick="history.back()">←</button>
+
+    <div class="chat-header-user">
+      <div class="chat-header-avatar"
+           style="background-image:url('/static/assets/placeholder/placeholder.svg')">
+      </div>
+
+      <span class="chat-header-name">
+        @{{ thread.other_user(g.user.id).username }}
+      </span>
+    </div>
+  </div>
+
+  <!-- LISTA DE MENSAGENS -->
+  <div class="messages-area" id="messages">
+    {% for m in messages %}
+      <div class="message-wrap {{ 'me' if m.sender_id == g.user.id else 'them' }}">
+        <div class="message-bubble">
+          {{ m.text }}
+        </div>
+
+        <div class="message-meta">
+          {{ m.created_at.strftime("%H:%M") }}
+
+          {% if m.sender_id == g.user.id %}
+            {% if m.seen %}
+              <span class="seen">✓✓</span>
+            {% else %}
+              <span class="sent">✓</span>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- INPUT DE ENVIO -->
+  <form class="send-box" id="send-form">
+    <input id="msg-input" placeholder="Mensagem..." autocomplete="off">
+    <button type="submit">Enviar</button>
+  </form>
+
+</div>
+
+<!-- JS -->
+<script type="module">
+  const messages = document.getElementById("messages");
+  const form = document.getElementById("send-form");
+  const input = document.getElementById("msg-input");
+
+  messages.scrollTop = messages.scrollHeight;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+
+    // Envia para backend
+    await fetch(`/chat/send/{{ thread.id }}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text })
+    });
+
+    // Adiciona na tela imediatamente
+    messages.insertAdjacentHTML("beforeend", `
+      <div class="message-wrap me">
+        <div class="message-bubble">${text}</div>
+        <div class="message-meta">agora <span class="sent">✓</span></div>
+      </div>
+    `);
+
+    input.value = "";
+    messages.scrollTop = messages.scrollHeight;
+  });
+</script>
+
+{% endblock %}

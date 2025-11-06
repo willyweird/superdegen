@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% set page = "notifications" %}
+{% block title %}Notificações - NapSe{% endblock %}
+
+{% block content %}
+<h2 class="page-title">Solicitações de Amizade</h2>
+
+<div class="notif-list">
+
+  {% if notifications|length == 0 %}
+    <p class="empty-state">Nenhuma solicitação pendente.</p>
+  {% else %}
+    {% for n in notifications %}
+      <div class="notif-item">
+        <span class="notif-text">
+          {{ n.username }} te enviou uma solicitação de amizade
+        </span>
+
+        <div class="notif-actions">
+          <button class="btn-accept" data-id="{{ n.user_id }}">Aceitar</button>
+          <button class="btn-decline" data-id="{{ n.user_id }}">Recusar</button>
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+</div>
+{% endblock %}

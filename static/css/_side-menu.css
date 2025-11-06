@@ -1,0 +1,153 @@
+/* =========================================
+   BACKDROP (Fundo escurecido suave)
+========================================= */
+#side-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+  z-index: 250;
+}
+#side-menu-backdrop.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* =========================================
+   SIDE MENU — Instagram Slim Float
+========================================= */
+#side-menu {
+  position: fixed;
+  /* NÃO começa no topo */
+  top: calc(var(--nav-h) + var(--safe-top) + 10px);
+  right: 12px;
+
+  /* NÃO ocupa altura total */
+  height: auto;
+  max-height: calc(100% - var(--nav-h) - var(--safe-top) - 20px);
+
+  /* Tamanho fino & premium */
+  width: 58%;
+  max-width: 260px;
+
+  /* → Dark & Light automaticamente por var(--menu-bg) */
+  background: var(--menu-bg);
+  backdrop-filter: blur(24px) saturate(1.6);
+
+  border-radius: 18px;
+  border: 1px solid var(--glass-line);
+
+  box-shadow: 0 18px 40px rgba(0,0,0,.34);
+
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  transform: translateX(120%);
+  transition: transform .32s cubic-bezier(.25,.1,.25,1);
+
+  z-index: 300;
+}
+#side-menu.visible {
+  transform: translateX(0);
+}
+
+
+/* =========================================
+   ITEMS DO MENU — Estilo Instagram
+========================================= */
+.side-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px 4px;
+  font-size: .95rem;
+  font-weight: 500;
+  color: var(--ink);
+  opacity: .82;
+  cursor: pointer;
+
+  border-radius: 10px;
+  transition: opacity .22s ease, background .22s ease;
+}
+.side-menu-item:hover {
+  opacity: 1;
+  background: rgba(255,255,255,0.06); /* funciona no dark e light */
+}
+
+/* Ícones */
+.side-menu-item img {
+  width: 20px;
+  height: 20px;
+  opacity: .85;
+  transition: opacity .22s ease, transform .22s ease;
+}
+.side-menu-item:hover img {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+
+/* =========================================
+   SUBMENU (Preferências) — Mesmo conceito
+========================================= */
+#side-submenu {
+  position: fixed;
+  top: calc(var(--nav-h) + var(--safe-top) + 10px);
+  right: 12px;
+  height: auto;
+  max-height: calc(100% - var(--nav-h) - var(--safe-top) - 20px);
+
+  width: 58%;
+  max-width: 260px;
+
+  background: var(--menu-bg);
+  backdrop-filter: blur(24px) saturate(1.6);
+
+  border-radius: 18px;
+  border: 1px solid var(--glass-line);
+  box-shadow: 0 18px 40px rgba(0,0,0,.34);
+
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  transform: translateX(120%);
+  transition: transform .32s cubic-bezier(.25,.1,.25,1);
+  z-index: 310;
+}
+#side-submenu.visible {
+  transform: translateX(0);
+}
+
+
+#side-submenu .side-menu-back {
+  padding: 8px 4px;
+  font-size: .9rem;
+  opacity: .65;
+  cursor: pointer;
+  color: var(--ink);
+  transition: opacity .22s ease;
+}
+#side-submenu .side-menu-back:hover {
+  opacity: 1;
+}
+
+#side-submenu .side-menu-item {
+  padding: 10px 4px;
+  font-size: .95rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+#side-submenu .side-menu-item.disabled {
+  opacity: .40;
+  cursor: default;
+}
+

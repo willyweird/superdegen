@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Preferências - NapSe{% endblock %}
+
+{% block content %}
+<div class="settings-container">
+
+  <h2>Preferências</h2>
+
+  <div class="setting-section">
+    <h4>Tema</h4>
+    <button class="setting-btn" id="theme-switch">Alternar Tema</button>
+  </div>
+
+  <div class="setting-section">
+    <h4>Idioma</h4>
+    <select id="language-select" class="setting-select">
+      <option value="pt">Português (BR)</option>
+      <option value="en">English</option>
+    </select>
+  </div>
+
+</div>
+{% endblock %}

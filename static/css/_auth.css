@@ -1,0 +1,133 @@
+/* =======================
+   PAGE BASE
+======================= */
+.auth-body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;      /* AGORA centraliza perfeitamente */
+  background: var(--bg);
+  padding: 24px;
+}
+
+/* =======================
+   WRAPPER
+======================= */
+.auth-container {
+  width: 100%;
+  max-width: 340px;             /* mais enxuto, mais premium */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  text-align: center;
+  animation: fadeIn .45s ease;
+}
+
+/* =======================
+   LOGO - PRESENÇA REAL
+======================= */
+.auth-logo {
+  font-family: "Inter Tight", sans-serif;
+  font-weight: 700;
+  font-size: 3.4rem;            /* levemente maior */
+  letter-spacing: -1.5px;
+  color: var(--ink);
+  user-select: none;
+  margin-bottom: 4px;
+}
+
+/* =======================
+   FORM CARD
+======================= */
+.auth-box {
+  width: 100%;
+  padding: 22px 20px;           /* ainda menor e mais limpo */
+  border-radius: 18px;
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.auth-box h2 {
+  font-size: 1.1rem;            /* mais suave */
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin: 0 0 4px 0;
+}
+
+/* =======================
+   FORM
+======================= */
+.auth-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth-box input {
+  padding: 11px 13px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-line);
+  background: rgba(255,255,255,0.12);
+  color: var(--ink);
+  font-size: .95rem;
+  outline: none;
+  transition: border .25s ease, background .25s ease;
+}
+
+.auth-box input:focus {
+  border-color: var(--accent);
+  background: rgba(255,255,255,0.18);
+}
+
+/* =======================
+   BUTTON
+======================= */
+.auth-btn {
+  padding: 11px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  font-size: .95rem;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+.auth-btn:hover {
+  opacity: .92;
+  transform: translateY(-1px);
+}
+
+/* =======================
+   LINK PARA TROCAR
+======================= */
+.auth-switch {
+  font-size: .88rem;
+  color: var(--ink-soft);
+}
+
+.auth-switch a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity .2s ease;
+}
+
+.auth-switch a:hover {
+  opacity: .6;
+}
+
+/* =======================
+   ANIMAÇÃO SUAVE
+======================= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

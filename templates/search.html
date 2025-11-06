@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% set page = "search" %}
+{% block title %}Buscar - NapSe{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/_search.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="search-page">
+
+  <!-- Barra de Pesquisa -->
+  <div class="search-box">
+    <input type="text" id="search-input" class="search-input" placeholder="Pesquisar pessoas...">
+  </div>
+
+  <!-- Resultados (JS vai preencher aqui) -->
+  <div id="search-results" class="search-results"></div>
+
+</div>
+{% endblock %}

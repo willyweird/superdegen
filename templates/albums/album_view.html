@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% block title %}{{ album.name }} - NapSe{% endblock %}
+{% set page = "album-view" %}
+
+{% block content %}
+
+<div class="album-header">
+  <div class="left">
+    <h2 id="album-title" class="page-title">{{ album.name }}</h2>
+
+    {% if role in ["owner", "editor"] %}
+    <button id="album-options-btn" class="btn-icon">
+      <img src="{{ url_for('static', filename='icons/add.svg') }}" width="20" alt="+">
+    </button>
+    {% endif %}
+  </div>
+
+  <div id="member-avatars" class="member-avatars"></div>
+</div>
+
+<div class="photo-grid" id="photo-grid">
+  {% if album.photos|length == 0 %}
+    <p class="empty-state">Envie suas primeiras fotos para este álbum.</p>
+  {% else %}
+    {% for photo in album.photos %}
+    <a href="{{ url_for('albums.photo_view', photo_id=photo.id) }}" 
+       class="photo-item" 
+       data-photo-id="{{ photo.id }}">
+      <div><img src="{{ photo.url }}" alt=""></div>
+    </a>
+    {% endfor %}
+  {% endif %}
+</div>
+
+<!-- MENU (+) -->
+<div id="album-options-menu" class="options-menu">
+  <button id="choose-cover-btn">Mudar capa</button>
+  <button id="rename-album-btn">Renomear álbum</button>
+  <button id="add-member-btn">Adicionar membro</button>
+</div>
+
+<!-- MODAL: TROCAR CAPA -->
+<div id="cover-modal" class="napse-modal">
+  <div class="napse-modal-card">
+    <h3>Trocar capa</h3>
+
+    <div class="cap-opts">
+      <label class="upload-btn">
+        <input id="cover-file-input" type="file" accept="image/*" hidden>
+        Fazer upload
+      </label>
+
+      <button id="choose-from-album" class="choose-btn">Escolher do álbum</button>
+    </div>
+
+    <div id="cover-chooser" class="chooser-grid" style="display:none;">
+      {% for p in album.photos %}
+      <img src="{{ p.url }}" data-photo-id="{{ p.id }}">
+      {% endfor %}
+    </div>
+
+    <button class="close-modal" data-close="#cover-modal">Fechar</button>
+  </div>
+</div>
+
+<!-- DRAWER: RENOMEAR -->
+<div id="rename-drawer" class="napse-drawer">
+  <div class="drawer-content">
+    <div class="drawer-header">
+      <h3>Renomear álbum</h3>
+      <button class="drawer-close" data-close="#rename-drawer">×</button>
+    </div>
+    <div class="drawer-body">
+      <input id="rename-input" type="text" class="rename-input" placeholder="Novo nome">
+      <button id="rename-save" class="primary">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ADICIONAR MEMBRO -->
+<div id="member-modal" class="napse-modal">
+  <div class="napse-modal-card">
+    <h3>Adicionar membro</h3>
+
+    <select id="member-select" class="full"></select>
+
+    <button id="send-invite" class="primary">Enviar convite</button>
+    <button class="close-modal" data-close="#member-modal">Fechar</button>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script type="module">
+import { api } from "/static/js/action.js";
+
+const albumId = {{ album.id }};
+const role = "{{ role }}";
+
+/* COMPONENT HELPERS */
+function openModal(sel){ document.querySelector(sel).classList.add("show"); }
+function closeModal(sel){ document.querySelector(sel).classList.remove("show"); }
+document.body.addEventListener("click", e => {
+  const sel = e.target.getAttribute?.("data-close");
+  if(sel) closeModal(sel);
+});
+
+/* CARREGAR AVATARES */
+api(`/albums/${albumId}/members`).then(res => {
+  const el = document.getElementById("member-avatars");
+  el.innerHTML = res.members.map(m =>
+    `<img class="avatar" src="https://ui-avatars.com/api/?name=${m.username}&background=ffffff&color=111111&size=64">`
+  ).join("");
+});
+
+/* MENU + */
+const menu = document.getElementById("album-options-menu");
+document.getElementById("album-options-btn")?.addEventListener("click", () => {
+  menu.classList.toggle("show");
+});
+
+/* ========== RENOMEAR (DRAWER) ========== */
+document.getElementById("rename-album-btn")?.addEventListener("click", () => {
+  menu.classList.remove("show");
+  openModal("#rename-drawer");
+  const input = document.getElementById("rename-input");
+  input.value = document.getElementById("album-title").innerText.trim();
+  input.focus();
+});
+
+document.getElementById("rename-save")?.addEventListener("click", async () => {
+  const input = document.getElementById("rename-input");
+  const newName = input.value.trim();
+  if (!newName) return;
+  const fd = new FormData(); fd.append("name", newName);
+  await api(`/albums/${albumId}/rename`, { method:"POST", body:fd });
+  document.getElementById("album-title").innerText = newName;
+  closeModal("#rename-drawer");
+});
+
+/* ========== TROCAR CAPA ========== */
+document.getElementById("choose-cover-btn")?.addEventListener("click", () => {
+  menu.classList.remove("show");
+  openModal("#cover-modal");
+});
+
+/* Upload → vira capa */
+document.getElementById("cover-file-input")?.addEventListener("change", async (e) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  const up = new FormData();
+  up.append("file", file);
+  const res = await api(`/albums/upload/${albumId}`, { method:"POST", body:up });
+  if (!res?.photo_id) return;
+  const fd = new FormData();
+  fd.append("photo_id", res.photo_id);
+  await api(`/albums/${albumId}/cover`, { method:"POST", body:fd });
+  closeModal("#cover-modal");
+  location.reload();
+});
+
+/* Escolher do álbum (grid) */
+document.getElementById("choose-from-album")?.addEventListener("click", () => {
+  document.getElementById("cover-chooser").style.display = "grid";
+});
+document.querySelectorAll("#cover-chooser img").forEach(img => {
+  img.onclick = async () => {
+    const fd = new FormData();
+    fd.append("photo_id", img.dataset.photoId);
+    await api(`/albums/${albumId}/cover`, { method:"POST", body:fd });
+    closeModal("#cover-modal");
+    location.reload();
+  };
+});
+
+/* ========== ADICIONAR MEMBRO ========== */
+document.getElementById("add-member-btn")?.addEventListener("click", async () => {
+  menu.classList.remove("show");
+  openModal("#member-modal");
+
+  const sel = document.getElementById("member-select");
+  sel.innerHTML = `<option>Carregando...</option>`;
+  const res = await api(`/albums/${albumId}/friends`);
+  sel.innerHTML = res.friends.length
+    ? res.friends.map(f => `<option value="${f.id}">${f.username}</option>`).join("")
+    : `<option disabled>Nenhum amigo disponível</option>`;
+});
+
+document.getElementById("send-invite")?.addEventListener("click", async () => {
+  const userId = document.getElementById("member-select").value;
+  if (!userId) return;
+  const fd = new FormData(); fd.append("user_id", userId);
+  await api(`/albums/${albumId}/invite`, { method:"POST", body:fd });
+  closeModal("#member-modal");
+  alert("Convite enviado!"); /* depois substituímos por toast */
+});
+
+</script>
+{% endblock %}

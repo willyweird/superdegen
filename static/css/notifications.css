@@ -1,0 +1,52 @@
+.notif-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.notif-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 14px 16px;
+  border-radius: 14px;
+
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(var(--blur));
+}
+
+.notif-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.notif-actions button {
+  padding: 6px 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-accept {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-decline {
+  background: rgba(255,255,255,0.15);
+  color: var(--ink);
+}
+
+/* Animação de desaparecimento suave */
+.notif-item {
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+.notif-item.removing {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+

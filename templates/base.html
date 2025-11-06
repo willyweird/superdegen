@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="{{ g.get('lang', 'pt') }}">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1" />
+  <title>{% block title %}NapSe{% endblock %}</title>
+
+  <!-- Fonte Inter + Inter Tight -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    const saved = localStorage.getItem("napse-theme") || "dark";
+    document.documentElement.dataset.theme = saved;
+  </script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block head_extra %}{% endblock %}
+</head>
+
+<body data-page="{{ page|default('general') }}" class="app-body {% if page == 'chat' %}no-nav{% endif %}">
+
+{% if g.user %}
+<script>
+  window.currentUserId = {{ g.user.id }};
+</script>
+{% endif %}
+
+  <!-- NAV SUPERIOR -->
+  <nav class="navbar">
+    <div class="logo">
+      <a href="{{ url_for('home.home_page') }}">napse</a>
+    </div>
+
+    {% if g.user %}
+    <div class="nav-icons">
+      <a href="{{ url_for('notifications.notifications_home') }}" class="nav-bell">
+        <img src="{{ url_for('static', filename='icons/notifications.svg') }}" alt="">
+        <span id="notif-badge"></span>
+      </a>
+
+
+      <a href="{{ url_for('chat.chat_list') }}" class="nav-chat">
+        <img src="{{ url_for('static', filename='icons/chat.svg') }}" alt="{{ _('Chat') }}">
+        <span id="chat-badge"></span>
+      </a>
+
+
+      <button id="menu-button" class="icon-btn">
+        <img src="{{ url_for('static', filename='icons/menu.svg') }}" alt="{{ _('Menu') }}">
+      </button>
+    </div>
+    {% endif %}
+  </nav>
+
+  <!-- CONTEÚDO -->
+  <main class="content">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% if g.user %}
+  <!-- NAV INFERIOR -->
+  <nav class="bottom-nav">
+    <a href="{{ url_for('home.home_page') }}" class="bn-item" data-path="/">
+      <img src="{{ url_for('static', filename='icons/home.svg') }}" alt="{{ _('Home') }}">
+    </a>
+
+    <a href="{{ url_for('search.search_home') }}" class="bn-item" data-path="/search">
+      <img src="{{ url_for('static', filename='icons/search.svg') }}" alt="{{ _('Buscar') }}">
+    </a>
+
+    <button id="action-button" class="bn-item add-btn">
+      <img src="{{ url_for('static', filename='icons/add.svg') }}" alt="{{ _('Adicionar') }}">
+    </button>
+
+    <a href="{{ url_for('albums.albums_home') }}" class="bn-item" data-path="/albums">
+      <img src="{{ url_for('static', filename='icons/albums.svg') }}" alt="{{ _('Álbuns') }}">
+    </a>
+
+    <a href="{{ url_for('profile.profile_home') }}" class="bn-item" data-path="/profile">
+      <img src="{{ url_for('static', filename='icons/profile.svg') }}" alt="{{ _('Perfil') }}">
+    </a>
+  </nav>
+  {% endif %}
+
+{% block modals %}
+
+<!-- MODAL: Criar Álbum -->
+<div id="modal-create-album" class="modal-backdrop">
+  <div class="modal-card">
+    <h3>{{ _("Criar novo álbum") }}</h3>
+
+    <input type="text" id="album-name-input" class="modal-input" placeholder="{{ _('Nome do álbum') }}">
+
+    <button id="confirm-create-album" class="modal-action">
+      {{ _("Criar Álbum") }}
+    </button>
+
+    <button class="close-btn" data-close>{{ _("Fechar") }}</button>
+  </div>
+</div>
+
+<!-- MODAL: Upload Foto -->
+<div id="modal-upload-photo" class="modal-backdrop">
+  <div class="modal-card">
+    <h3>{{ _("Enviar Foto") }}</h3>
+
+    <input type="file" id="photo-file-input" accept="image/*" class="modal-input">
+
+    <button id="confirm-upload-photo" class="modal-action">
+      {{ _("Enviar") }}
+    </button>
+
+    <button class="close-btn" data-close>{{ _("Fechar") }}</button>
+  </div>
+</div>
+
+{% endblock %}
+
+<!-- SIDE MENU BACKDROP -->
+<div id="side-menu-backdrop"></div>
+
+<!-- SIDE MENU (NÍVEL 1) -->
+<div id="side-menu">
+  <div class="side-menu-item" id="open-preferences">{{ _("Preferências") }}</div>
+  <a class="side-menu-item" href="{{ url_for('profile.profile_home') }}">{{ _("Meu Perfil") }}</a>
+  <a class="side-menu-item" href="{{ url_for('auth.logout') }}">
+    <img src="{{ url_for('static', filename='icons/logout.svg') }}" alt="">
+    <span>{{ _("Sair") }}</span>
+  </a>
+</div>
+
+<!-- SIDE MENU (NÍVEL 2 — PREFERÊNCIAS) -->
+<div id="side-submenu">
+  <div class="side-menu-back" id="close-submenu">← {{ _("Voltar") }}</div>
+  <div class="side-menu-item" id="toggle-theme">{{ _("Mudar Tema") }}</div>
+  <div class="side-menu-item disabled">{{ _("Idioma (em breve)") }}</div>
+</div>
+
+<script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+{% block scripts %}{% endblock %}
+
+</body>
+</html>

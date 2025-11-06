@@ -1,0 +1,229 @@
+/* =======================
+   BACKDROP
+======================= */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(32px) saturate(1.5);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s cubic-bezier(.25,.1,.25,1);
+  z-index: 200;
+}
+
+.modal-backdrop.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* =======================
+   CARD PRINCIPAL
+======================= */
+.modal-card {
+  width: 86%;
+  max-width: 400px;
+
+  padding: 30px 26px;
+  border-radius: 22px;
+
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+
+  backdrop-filter: blur(48px) saturate(1.9);
+  -webkit-backdrop-filter: blur(48px) saturate(1.9);
+
+  box-shadow:
+    0 18px 38px rgba(0,0,0,0.45),
+    0 0 0 1px rgba(255,255,255,0.06) inset;
+
+  text-align: center;
+  animation: modalIn .38s cubic-bezier(.25,.1,.25,1);
+}
+
+/* Light Theme Harmonizado */
+[data-theme="light"] .modal-card {
+  background: rgba(245,246,248,0.78);
+  border: 1px solid rgba(0,0,0,0.10);
+  box-shadow:
+    0 14px 34px rgba(0,0,0,0.14),
+    0 0 0 1px rgba(0,0,0,0.05) inset;
+}
+
+
+/* =======================
+   ANIMAÇÃO DE ENTRADA
+======================= */
+@keyframes modalIn {
+  0% { opacity: 0; transform: translateY(14px) scale(.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+
+/* =======================
+   TÍTULO
+======================= */
+.modal-card h3 {
+  margin-bottom: 18px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+
+/* =======================
+   INPUTS
+======================= */
+.modal-input {
+  width: 100% !important;  /* ← garante que nunca ultrapassa */
+  box-sizing: border-box; 
+  display: block;
+
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  border-radius: 14px;
+
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.26);
+
+  color: var(--ink);
+  font-size: .97rem;
+  outline: none;
+
+  transition: border .25s ease, background .25s ease;
+}
+
+.modal-input:focus {
+  border-color: var(--accent);
+  background: rgba(255,255,255,0.22);
+}
+
+/* INPUT FILE */
+input[type="file"].modal-input {
+  padding: 12px;
+  background: rgba(255,255,255,0.14);
+  cursor: pointer;
+}
+
+input[type="file"].modal-input::-webkit-file-upload-button {
+  display: none;
+}
+
+
+/* =======================
+   BOTÃO PRINCIPAL
+======================= */
+.modal-action {
+  width: 100%;
+  padding: 14px;
+  border-radius: 16px;
+
+  background: var(--accent);
+  color: #fff;
+  font-size: .95rem;
+  font-weight: 500;
+
+  border: none;
+  cursor: pointer;
+
+  box-shadow: 0 12px 26px rgba(77,141,247,0.42);
+  transition: transform .22s cubic-bezier(.25,.1,.25,1), filter .22s ease;
+}
+
+.modal-action:hover { filter: brightness(1.12); }
+.modal-action:active { transform: scale(.94); }
+
+
+/* =======================
+   BOTÃO FECHAR (SECUNDÁRIO)
+======================= */
+.close-btn {
+  margin-top: 18px;
+  font-size: .9rem;
+  opacity: .60;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-soft);
+  transition: opacity .22s ease;
+}
+
+.close-btn:hover { opacity: .85; }
+
+/* Modal base */
+.napse-modal {
+  position: fixed; inset: 0;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(10px);
+  z-index: 3000;
+}
+.napse-modal.show { display: flex; }
+
+.napse-modal-card {
+  width: min(520px, 92vw);
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+.cap-opts { display:flex; gap:10px; }
+.upload-btn, .choose-btn {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  cursor: pointer;
+}
+.chooser-grid {
+  display:grid; grid-template-columns: repeat(3, 1fr);
+  gap:8px; max-height: 42vh; overflow:auto;
+}
+.chooser-grid img {
+  width:100%; aspect-ratio:1/1; border-radius:12px; object-fit:cover;
+  cursor:pointer; transition:.2s;
+}
+.chooser-grid img:hover { transform: scale(.97); opacity:.9; }
+
+.napse-modal .primary {
+  padding:10px 14px; border-radius:12px; border:1px solid var(--glass-line);
+  background: var(--glass);
+}
+.close-modal { border:none; background:none; opacity:.7; }
+
+/* Drawer lateral (rename) */
+.napse-drawer {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.25);
+  backdrop-filter: blur(6px);
+  display: none;
+  z-index: 3000;
+}
+.napse-drawer.show { display:block; }
+
+.drawer-content {
+  position:absolute; top:0; right:0; height:100%; width:min(420px, 92vw);
+  background: var(--glass);
+  border-left:1px solid var(--glass-line);
+  transform: translateX(100%);
+  animation: slideIn .35s var(--ease) forwards;
+}
+@keyframes slideIn { to { transform: translateX(0); } }
+
+.drawer-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px; border-bottom:1px solid var(--glass-line);
+}
+.drawer-close { background:none; border:none; font-size:22px; opacity:.7; }
+
+.drawer-body { padding:16px; display:flex; flex-direction:column; gap:10px; }
+.rename-input { padding:10px 12px; border-radius:12px; border:1px solid var(--glass-line); }
