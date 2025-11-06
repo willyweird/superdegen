@@ -1,9 +1,12 @@
 /* =========================================
-   GRID (ÁLBUNS & FOTOS) — PADRÃO NAPSE
+   GRID (ÁLBUNS & FOTOS) — PADRÃO SUPERDEGEN
    -> Coloque este bloco no _grids.css
 ========================================= */
 
 /* CONTÊINER DOS GRIDS */
+.match-grid,
+.tournament-grid,
+.league-grid,
 .album-grid,
 .photo-grid {
   display: grid;
@@ -18,6 +21,9 @@
 
 /* tablet/desktop */
 @media (min-width: 768px) {
+  .match-grid,
+  .tournament-grid,
+  .league-grid,
   .album-grid,
   .photo-grid {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -30,6 +36,11 @@
    FILHOS DO GRID (evita empilhamento/estouro)
    - MUITO IMPORTANTE para não quebrar o layout
 ========================================= */
+.match-grid > .match-card,
+.match-grid > .league-card,
+.match-grid > .tournament-card,
+.tournament-grid > .match-card,
+.league-grid > .match-card,
 .album-grid > .album-card {
   display: block;        /* garante bloco real no grid */
   min-width: 0;          /* evita overflow que estoura coluna */
@@ -45,6 +56,7 @@
 /* =========================================
    THUMB COMPARTILHADO (álbuns e fotos iguais)
 ========================================= */
+.match-thumb,
 .album-thumb,
 .photo-grid > a > div {
   position: relative;
@@ -65,6 +77,9 @@
 }
 
 /* hover idêntico para ambos */
+.match-card:hover .match-thumb,
+.league-card:hover .match-thumb,
+.tournament-card:hover .match-thumb,
 .album-card:hover .album-thumb,
 .photo-grid > a:hover > div {
   transform: translateY(-3px);
@@ -75,6 +90,7 @@
 /* =========================================
    IMAGENS
 ========================================= */
+.match-thumb img,
 .album-thumb img,
 .photo-grid img {
   display: block;     /* remove espaço inline */
@@ -86,6 +102,9 @@
 /* =========================================
    CARD DE ÁLBUM (legenda)
 ========================================= */
+.match-card,
+.league-card,
+.tournament-card,
 .album-card {
   display: flex;
   flex-direction: column;
@@ -94,6 +113,7 @@
   color: var(--ink);
 }
 
+.match-meta,
 .album-name {
   font-size: .92rem;
   font-weight: 500;
@@ -220,4 +240,65 @@
 .drawer-grid img:hover {
   transform: scale(.96);
   opacity: .85;
+}
+
+.match-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.75);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.match-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 4px 10px;
+  text-align: center;
+  background: transparent;
+}
+
+.match-title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.match-opponents {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.7);
+}
+
+.match-stage,
+.match-league,
+.match-date,
+.match-description {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.65);
+}
+
+.match-description {
+  line-height: 1.35;
+}
+
+.match-grid .match-card {
+  position: relative;
+}
+
+.match-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  pointer-events: none;
+}
+
+.match-card:hover::after {
+  border-color: var(--accent);
 }

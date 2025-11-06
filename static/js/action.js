@@ -25,54 +25,105 @@ export async function api(path, opts = {}) {
 }
 
 /* ==============================
-   AÇÕES DE ÁLBUNS
+   AÇÕES DE MATCHES
 ================================ */
-export function initAlbumActions() {
+export function initMatchActions(page) {
+  const createBtn = document.getElementById("confirm-create-match");
+  createBtn?.addEventListener("click", async () => {
+    const titleInput = document.getElementById("match-title-input");
+    const opponentsInput = document.getElementById("match-opponents-input");
+    const gameInput = document.getElementById("match-game-input");
+    const leagueInput = document.getElementById("match-league-input");
+    const stageInput = document.getElementById("match-stage-input");
+    const statusSelect = document.getElementById("match-status-select");
+    const dateInput = document.getElementById("match-date-input");
 
-  /* ========== Criar Álbum ========== */
-  const confirmCreateAlbum = document.getElementById("confirm-create-album");
-  confirmCreateAlbum?.addEventListener("click", async () => {
-    const input = document.getElementById("album-name-input");
-    const name = input.value.trim();
-    if (!name){
-      input.focus();
-      input.style.borderColor = "var(--accent)";
+    titleInput.style.borderColor = "";
+    opponentsInput.style.borderColor = "";
+
+    const title = titleInput.value.trim();
+    const opponents = opponentsInput.value.trim();
+
+    if (!title) {
+      titleInput.focus();
+      titleInput.style.borderColor = "var(--accent)";
+      return;
+    }
+
+    if (!opponents) {
+      opponentsInput.focus();
+      opponentsInput.style.borderColor = "var(--accent)";
       return;
     }
 
     const formData = new FormData();
-    formData.append("name", name);
+    formData.append("title", title);
+    formData.append("opponents", opponents);
+    formData.append("game", gameInput.value.trim());
+    formData.append("league", leagueInput.value.trim());
+    formData.append("stage", stageInput.value.trim());
+    formData.append("status", statusSelect.value);
+    formData.append("scheduled_for", dateInput.value);
 
-    const data = await api("/albums/create", {
+    const result = await api("/matches/create", {
       method: "POST",
-      body: formData
+      body: formData,
     });
 
-    if (data.success) {
-      window.location.href = `/albums/${data.album_id}`;
+    if (result?.error) {
+      alert(result.error);
+      return;
+    }
+
+    if (result?.success) {
+      window.location.href = `/matches/${result.match_id}`;
     }
   });
 
+  const updateBtn = document.getElementById("confirm-update-result");
+  if (page === "match-view") {
+    const statusSelect = document.getElementById("result-status-select");
+    const scoreInput = document.getElementById("result-score-input");
+    const summaryInput = document.getElementById("result-summary-input");
 
-  /* ========== Upload de Foto ========== */
-  const confirmUploadPhoto = document.getElementById("confirm-upload-photo");
-  confirmUploadPhoto?.addEventListener("click", async () => {
+    if (statusSelect && window.currentMatchStatus) {
+      statusSelect.value = window.currentMatchStatus;
+    }
+    if (scoreInput) {
+      scoreInput.value = window.currentMatchResult || "";
+    }
+    if (summaryInput) {
+      summaryInput.value = window.currentMatchSummary || "";
+    }
+  }
 
-    const file = document.getElementById("photo-file-input").files[0];
-    if (!file) return alert("Selecione uma foto.");
+  updateBtn?.addEventListener("click", async () => {
+    const matchId = window.currentMatchId;
+    if (!matchId) {
+      return;
+    }
 
-    const albumId = window.location.pathname.split("/").pop();
+    const statusSelect = document.getElementById("result-status-select");
+    const scoreInput = document.getElementById("result-score-input");
+    const summaryInput = document.getElementById("result-summary-input");
+
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("status", statusSelect.value);
+    formData.append("result", scoreInput.value.trim());
+    formData.append("summary", summaryInput.value.trim());
 
-    const data = await api(`/albums/upload/${albumId}`, {
+    const result = await api(`/matches/${matchId}/result`, {
       method: "POST",
-      body: formData
+      body: formData,
     });
 
-    if (data.success) {
+    if (result?.error) {
+      alert(result.error);
+      return;
+    }
+
+    if (result?.success) {
       window.location.reload();
     }
   });
-
 }

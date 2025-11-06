@@ -1,7 +1,7 @@
 import { initModals } from "./modals.js";
 import { initMenu } from "./menu.js";
 import { initTheme } from "./theme.js";
-import { initAlbumActions } from "./action.js";
+import { initMatchActions } from "./action.js";
 import { initSearchPage } from "./search.js";
 import { mountFriendButton } from "./friends.js";
 import { initNotificationsPage } from "./notifications.js";
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initModals(page);
   initMenu();
   initTheme();
-  initAlbumActions();
+  initMatchActions(page);
   initSearchPage();
   initNotifBadge();
   initChatBadge();

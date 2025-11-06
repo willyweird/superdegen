@@ -8,7 +8,7 @@ from core.security import get_current_user
 
 # Importar Blueprints
 from modules.home.routes import home
-from modules.albums.routes import albums
+from modules.matches.routes import matches
 from modules.search.routes import search
 from modules.profile.routes import profile
 from modules.notifications.routes import notifications
@@ -19,7 +19,7 @@ from modules.social.routes import social
 
 # Importar Models (ANTES do create_all)
 from modules.users.models import User
-from modules.albums.models import Album, Photo
+from modules.matches.models import League, LeagueStanding, Match, Tournament
 
 babel = Babel()
 
@@ -47,7 +47,7 @@ def create_app():
 
     # Registrar Blueprints
     app.register_blueprint(home, url_prefix="/")
-    app.register_blueprint(albums, url_prefix="/albums")
+    app.register_blueprint(matches, url_prefix="/matches")
     app.register_blueprint(search, url_prefix="/search")
     app.register_blueprint(profile, url_prefix="/profile")
     app.register_blueprint(notifications, url_prefix="/notifications")

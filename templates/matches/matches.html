@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}Matches - Superdegen{% endblock %}
+{% set page = "matches" %}
+
+{% block content %}
+<section class="page-intro">
+  <h1 class="page-title">Matches</h1>
+  <p class="page-subtitle">Acompanhe partidas, torneios e ligas competitivas da Superdegen.</p>
+</section>
+
+<section class="collection-section">
+  <div class="section-header">
+    <h2 class="section-title">Partidas</h2>
+    <span class="section-count">{{ matches|length }}</span>
+  </div>
+
+  {% if matches %}
+  <div class="match-grid">
+    {% for match in matches %}
+    <a href="{{ url_for('matches.match_view', match_id=match.id) }}" class="match-card">
+      <div class="match-thumb">
+        {% if match.cover_image %}
+        <img src="{{ match.cover_image }}" alt="{{ match.title }}">
+        {% else %}
+        <div class="match-placeholder">
+          <span>{{ match.game or 'Match' }}</span>
+        </div>
+        {% endif %}
+      </div>
+      <div class="match-meta">
+        <span class="match-title">{{ match.title }}</span>
+        {% if match.opponents and match.opponents != match.title %}
+        <span class="match-opponents">{{ match.opponents }}</span>
+        {% endif %}
+        <span class="match-stage">{{ match.stage or match.status|capitalize }}</span>
+        {% if match.scheduled_for %}
+        <span class="match-date">{{ match.scheduled_for.strftime('%d/%m %H:%M') }}</span>
+        {% endif %}
+        {% if match.league %}
+        <span class="match-league">{{ match.league }}</span>
+        {% endif %}
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <h3>Nenhuma partida cadastrada</h3>
+    <p>Use o botão + para registrar confrontos da Superdegen.</p>
+  </div>
+  {% endif %}
+</section>
+
+<section class="collection-section">
+  <div class="section-header">
+    <h2 class="section-title">Torneios</h2>
+    <span class="section-count">{{ tournaments|length }}</span>
+  </div>
+
+  {% if tournaments %}
+  <div class="match-grid">
+    {% for tournament in tournaments %}
+    <a href="{{ url_for('matches.tournament_view', tournament_id=tournament.id) }}" class="match-card tournament-card">
+      <div class="match-thumb">
+        {% if tournament.banner_image %}
+        <img src="{{ tournament.banner_image }}" alt="{{ tournament.name }}">
+        {% else %}
+        <div class="match-placeholder">
+          <span>{{ tournament.game or 'Torneio' }}</span>
+        </div>
+        {% endif %}
+      </div>
+      <div class="match-meta">
+        <span class="match-title">{{ tournament.name }}</span>
+        {% if tournament.start_date %}
+        <span class="match-date">{{ tournament.start_date.strftime('%d/%m') }}{% if tournament.end_date %} - {{ tournament.end_date.strftime('%d/%m') }}{% endif %}</span>
+        {% endif %}
+        {% if tournament.location %}
+        <span class="match-league">{{ tournament.location }}</span>
+        {% endif %}
+        {% if tournament.prize_pool %}
+        <span class="match-stage">{{ tournament.prize_pool }}</span>
+        {% endif %}
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <h3>Nenhum torneio ativo</h3>
+    <p>Cadastre ligas e campeonatos para compor o calendário competitivo.</p>
+  </div>
+  {% endif %}
+</section>
+
+<section class="collection-section">
+  <div class="section-header">
+    <h2 class="section-title">Ligas</h2>
+    <span class="section-count">{{ leagues|length }}</span>
+  </div>
+
+  {% if leagues %}
+  <div class="match-grid">
+    {% for league in leagues %}
+    <a href="{{ url_for('matches.league_view', league_id=league.id) }}" class="match-card league-card">
+      <div class="match-thumb">
+        {% if league.emblem_image %}
+        <img src="{{ league.emblem_image }}" alt="{{ league.name }}">
+        {% else %}
+        <div class="match-placeholder">
+          <span>{{ league.game or 'Liga' }}</span>
+        </div>
+        {% endif %}
+      </div>
+      <div class="match-meta">
+        <span class="match-title">{{ league.name }}</span>
+        {% if league.region %}
+        <span class="match-league">{{ league.region }}</span>
+        {% endif %}
+        {% if league.season %}
+        <span class="match-stage">Season {{ league.season }}</span>
+        {% endif %}
+        {% if league.description %}
+        <span class="match-description">{{ league.description|truncate(80) }}</span>
+        {% endif %}
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <h3>Nenhuma liga cadastrada</h3>
+    <p>Crie ligas para acompanhar a escalada competitiva da comunidade.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

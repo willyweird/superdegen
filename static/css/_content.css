@@ -1,6 +1,3 @@
-/* =========================
-   CONTENT (MOBILE)
-========================= */
 .content {
   flex: 1;
   padding-top: calc(var(--nav-h) + var(--safe-top) + 14px);
@@ -10,15 +7,12 @@
   transition: padding .25s ease;
 }
 
-/* Quando estiver na página de visualização de álbum,
-   o título já cria espaçamento natural */
-body[data-page="album-view"] .content {
+body[data-page="match-view"] .content,
+body[data-page="tournament-view"] .content,
+body[data-page="league-view"] .content {
   padding-top: calc(var(--nav-h) + var(--safe-top) + 6px);
 }
 
-/* =========================
-   CONTENT (DESKTOP)
-========================= */
 @media (min-width: 920px) {
   .content {
     padding-top: calc(var(--nav-h) + var(--safe-top) + 16px);
@@ -28,122 +22,226 @@ body[data-page="album-view"] .content {
   }
 }
 
-
-
-  /* Títulos bem alinhados após sidebar */
 .page-title {
-    margin-left: 6px;
-    margin-right: 0;
-  }
-
-
-  .album-header {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 8px 14px;
+  margin-left: 6px;
+  margin-right: 0;
 }
 
-.album-title-row {
+.page-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 6px 2px;
+}
+
+.page-subtitle {
+  font-size: 0.92rem;
+  color: rgba(255,255,255,0.65);
+  max-width: 620px;
+}
+
+.collection-section {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 6px;
 }
 
-.btn-icon {
+.section-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.section-count {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.08);
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+.empty-state {
+  border-radius: 16px;
+  border: 1px dashed rgba(255,255,255,0.12);
+  padding: 26px 18px;
+  text-align: center;
+  color: rgba(255,255,255,0.68);
+  backdrop-filter: blur(16px);
+  background: rgba(10,12,16,0.45);
+}
+
+.empty-state h3 {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+  color: rgba(255,255,255,0.88);
+}
+
+.match-hero {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: var(--glass);
-  border: 1px solid var(--glass-line);
-  backdrop-filter: blur(var(--blur));
-  cursor: pointer;
-  transition: .25s var(--ease);
+  flex-direction: column;
+  gap: 18px;
+  padding: 12px 6px 0;
 }
 
-.btn-icon:hover {
-  opacity: .85;
-}
-
-.album-members-row {
+.match-hero-info {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.match-hero .match-opponents {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.8);
+}
+
+.match-tags {
+  display: flex;
+  flex-wrap: wrap;
   gap: 6px;
-  padding-left: 2px;
-  min-height: 36px;
 }
 
-
-.album-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding: 10px 14px 6px;
+.tag {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.75);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
-.album-header .left {
-  display:flex;
-  align-items:center;
-  gap:10px;
+.tag.status-scheduled { background: rgba(255,255,255,0.1); }
+.tag.status-live { background: rgba(255, 105, 97, 0.22); color: #ff867d; }
+.tag.status-finished { background: rgba(93, 255, 178, 0.16); color: #8cffc4; }
+
+.match-cover {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  max-height: 280px;
 }
 
-.btn-icon {
-  background:none;
-  border:none;
-  padding:4px;
-  cursor:pointer;
-  opacity:.7;
-  transition:.2s;
-}
-.btn-icon:hover { opacity:1; transform:scale(1.1); }
-
-/* AVATARES */
-.member-avatars {
-  display:flex;
-  gap:6px;
-}
-.member-avatars .avatar {
-  width:28px;
-  height:28px;
-  border-radius:50%;
-  object-fit:cover;
+.match-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-/* MENU (+) */
-.options-menu {
-  position:absolute;
-  right:14px;
-  top:60px;
-  display:none;
-  flex-direction:column;
-  background:var(--glass);
-  border:1px solid var(--glass-line);
-  backdrop-filter:blur(var(--blur));
-  border-radius:14px;
-  padding:6px;
-  z-index:2000;
-}
-.options-menu.show { display:flex; }
+@media (min-width: 860px) {
+  .match-hero {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-.options-menu button {
-  background:none;
-  border:none;
-  padding:10px 14px;
-  text-align:left;
-  font-size:.9rem;
-  border-radius:10px;
-  cursor:pointer;
-}
-.options-menu button:hover {
-  background:rgba(255,255,255,0.12);
+  .match-cover {
+    max-width: 380px;
+    max-height: 260px;
+  }
 }
 
-/* MODO SELEÇÃO PARA CAPA */
-.photo-item.select-mode img {
-  outline:3px solid var(--accent);
-  opacity:.85;
-  transition:.2s;
+.match-details {
+  display: grid;
+  gap: 16px;
+  margin-top: 26px;
+}
+
+@media (min-width: 860px) {
+  .match-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.match-detail-card {
+  border-radius: 18px;
+  padding: 20px;
+  background: rgba(12,14,18,0.72);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.32);
+}
+
+.match-detail-card h2 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+.match-detail-card p {
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.match-info-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.match-info-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 8px;
+}
+
+.match-info-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.match-info-list span {
+  color: rgba(255,255,255,0.55);
+}
+
+.match-info-list strong {
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+}
+
+.muted {
+  color: rgba(255,255,255,0.52);
+}
+
+.standings-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.standings-table th,
+.standings-table td {
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.standings-table thead {
+  background: rgba(255,255,255,0.08);
+}
+
+.standings-table tbody tr:nth-child(even) {
+  background: rgba(255,255,255,0.04);
+}
+
+.standings-table tbody tr:hover {
+  background: rgba(255,255,255,0.07);
+}
+
+.standings-table tbody td:first-child {
+  font-weight: 600;
+  width: 40px;
 }

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}{{ match.title }} - Superdegen{% endblock %}
+{% set page = "match-view" %}
+
+{% block content %}
+<header class="match-hero">
+  <div class="match-hero-info">
+    <h1 class="page-title" id="match-title">{{ match.title }}</h1>
+    <p class="match-opponents">{{ match.opponents }}</p>
+    <div class="match-tags">
+      {% if match.league %}<span class="tag">{{ match.league }}</span>{% endif %}
+      {% if match.game %}<span class="tag">{{ match.game }}</span>{% endif %}
+      {% if match.stage %}<span class="tag">{{ match.stage }}</span>{% endif %}
+      <span class="tag status-{{ match.status }}">{{ match.status|capitalize }}</span>
+    </div>
+  </div>
+  {% if match.cover_image %}
+  <div class="match-cover">
+    <img src="{{ match.cover_image }}" alt="{{ match.title }}">
+  </div>
+  {% endif %}
+</header>
+
+<section class="match-details">
+  <div class="match-detail-card">
+    <h2>Resumo</h2>
+    {% if match.summary %}
+    <p>{{ match.summary }}</p>
+    {% else %}
+    <p class="muted">Ainda não há um resumo cadastrado para esta partida.</p>
+    {% endif %}
+  </div>
+  <div class="match-detail-card">
+    <h2>Informações</h2>
+    <ul class="match-info-list">
+      <li><span>Adversários</span><strong>{{ match.opponents }}</strong></li>
+      <li><span>Status</span><strong>{{ match.status|capitalize }}</strong></li>
+      {% if match.result %}<li><span>Resultado</span><strong>{{ match.result }}</strong></li>{% endif %}
+      {% if match.scheduled_for %}<li><span>Horário</span><strong>{{ match.scheduled_for.strftime('%d/%m/%Y %H:%M') }}</strong></li>{% endif %}
+      {% if match.league %}<li><span>Liga/Torneio</span><strong>{{ match.league }}</strong></li>{% endif %}
+      {% if match.game %}<li><span>Jogo</span><strong>{{ match.game }}</strong></li>{% endif %}
+      {% if match.stage %}<li><span>Fase</span><strong>{{ match.stage }}</strong></li>{% endif %}
+    </ul>
+  </div>
+</section>
+{% endblock %}
+
+{% block head_extra %}
+<script>
+  window.currentMatchId = {{ match.id }};
+  window.currentMatchStatus = {{ match.status|tojson }};
+  window.currentMatchResult = {{ match.result|default('', true)|tojson }};
+  window.currentMatchSummary = {{ match.summary|default('', true)|tojson }};
+</script>
+{% endblock %}

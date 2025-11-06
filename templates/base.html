@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1" />
-  <title>{% block title %}NapSe{% endblock %}</title>
+  <title>{% block title %}Superdegen{% endblock %}</title>
 
   <!-- Fonte Inter + Inter Tight -->
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <script>
-    const saved = localStorage.getItem("napse-theme") || "dark";
+    const saved = localStorage.getItem("superdegen-theme") || "dark";
     document.documentElement.dataset.theme = saved;
   </script>
 
@@ -28,7 +28,7 @@
   <!-- NAV SUPERIOR -->
   <nav class="navbar">
     <div class="logo">
-      <a href="{{ url_for('home.home_page') }}">napse</a>
+      <a href="{{ url_for('home.home_page') }}">superdegen</a>
     </div>
 
     {% if g.user %}
@@ -72,8 +72,8 @@
       <img src="{{ url_for('static', filename='icons/add.svg') }}" alt="{{ _('Adicionar') }}">
     </button>
 
-    <a href="{{ url_for('albums.albums_home') }}" class="bn-item" data-path="/albums">
-      <img src="{{ url_for('static', filename='icons/albums.svg') }}" alt="{{ _('Álbuns') }}">
+    <a href="{{ url_for('matches.matches_home') }}" class="bn-item" data-path="/matches">
+      <img src="{{ url_for('static', filename='icons/matches.svg') }}" alt="{{ _('Partidas') }}">
     </a>
 
     <a href="{{ url_for('profile.profile_home') }}" class="bn-item" data-path="/profile">
@@ -84,33 +84,95 @@
 
 {% block modals %}
 
-<!-- MODAL: Criar Álbum -->
-<div id="modal-create-album" class="modal-backdrop">
+<!-- MODAL: Criar Partida -->
+<div id="modal-create-match" class="modal-backdrop">
   <div class="modal-card">
-    <h3>{{ _("Criar novo álbum") }}</h3>
+    <h3>{{ _("Registrar nova partida") }}</h3>
 
-    <input type="text" id="album-name-input" class="modal-input" placeholder="{{ _('Nome do álbum') }}">
+    <div class="modal-row">
+      <div class="modal-field">
+        <label for="match-title-input" class="modal-label">{{ _("Título") }}</label>
+        <input type="text" id="match-title-input" class="modal-input" placeholder="{{ _('Ex: Superdegen vs Rivais') }}">
+      </div>
+      <div class="modal-field">
+        <label for="match-opponents-input" class="modal-label">{{ _("Adversários") }}</label>
+        <input type="text" id="match-opponents-input" class="modal-input" placeholder="{{ _('Time A x Time B') }}">
+      </div>
+    </div>
 
-    <button id="confirm-create-album" class="modal-action">
-      {{ _("Criar Álbum") }}
+    <div class="modal-row two-columns">
+      <div class="modal-field">
+        <label for="match-game-input" class="modal-label">{{ _("Jogo") }}</label>
+        <input type="text" id="match-game-input" class="modal-input" placeholder="{{ _('Jogo ou modalidade') }}">
+      </div>
+      <div class="modal-field">
+        <label for="match-league-input" class="modal-label">{{ _("Liga/Torneio") }}</label>
+        <input type="text" id="match-league-input" class="modal-input" placeholder="{{ _('Nome da competição') }}">
+      </div>
+    </div>
+
+    <div class="modal-row two-columns">
+      <div class="modal-field">
+        <label for="match-stage-input" class="modal-label">{{ _("Fase") }}</label>
+        <input type="text" id="match-stage-input" class="modal-input" placeholder="{{ _('Fase de grupos, final...') }}">
+      </div>
+      <div class="modal-field">
+        <label for="match-status-select" class="modal-label">{{ _("Status") }}</label>
+        <select id="match-status-select" class="modal-select">
+          <option value="scheduled">{{ _("Agendado") }}</option>
+          <option value="live">{{ _("Ao vivo") }}</option>
+          <option value="finished">{{ _("Finalizado") }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="modal-row">
+      <div class="modal-field">
+        <label for="match-date-input" class="modal-label">{{ _("Data e horário") }}</label>
+        <input type="datetime-local" id="match-date-input" class="modal-input">
+      </div>
+    </div>
+
+    <button id="confirm-create-match" class="modal-action">
+      {{ _("Salvar partida") }}
     </button>
 
     <button class="close-btn" data-close>{{ _("Fechar") }}</button>
   </div>
 </div>
 
-<!-- MODAL: Upload Foto -->
-<div id="modal-upload-photo" class="modal-backdrop">
+<!-- MODAL: Atualizar Resultado -->
+<div id="modal-update-result" class="modal-backdrop">
   <div class="modal-card">
-    <h3>{{ _("Enviar Foto") }}</h3>
+    <h3>{{ _("Atualizar resultado") }}</h3>
 
-    <input type="file" id="photo-file-input" accept="image/*" class="modal-input">
+    <div class="modal-row two-columns">
+      <div class="modal-field">
+        <label for="result-status-select" class="modal-label">{{ _("Status") }}</label>
+        <select id="result-status-select" class="modal-select">
+          <option value="scheduled">{{ _("Agendado") }}</option>
+          <option value="live">{{ _("Ao vivo") }}</option>
+          <option value="finished">{{ _("Finalizado") }}</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label for="result-score-input" class="modal-label">{{ _("Resultado") }}</label>
+        <input type="text" id="result-score-input" class="modal-input" placeholder="{{ _('2x1, 3-0...') }}">
+      </div>
+    </div>
 
-    <button id="confirm-upload-photo" class="modal-action">
-      {{ _("Enviar") }}
+    <div class="modal-row">
+      <div class="modal-field">
+        <label for="result-summary-input" class="modal-label">{{ _("Resumo da partida") }}</label>
+        <textarea id="result-summary-input" class="modal-textarea" placeholder="{{ _('Detalhes, destaques e narrativa da partida') }}"></textarea>
+      </div>
+    </div>
+
+    <button id="confirm-update-result" class="modal-action">
+      {{ _("Atualizar") }}
     </button>
 
-    <button class="close-btn" data-close>{{ _("Fechar") }}</button>
+    <button class="close-btn" data-close>{{ _("Cancelar") }}</button>
   </div>
 </div>
 

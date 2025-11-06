@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}{{ tournament.name }} - Superdegen{% endblock %}
+{% set page = "tournament-view" %}
+
+{% block content %}
+<header class="match-hero">
+  <div class="match-hero-info">
+    <h1 class="page-title">{{ tournament.name }}</h1>
+    <p class="match-opponents">{{ tournament.organizer or 'Torneio Superdegen' }}</p>
+    <div class="match-tags">
+      {% if tournament.game %}<span class="tag">{{ tournament.game }}</span>{% endif %}
+      {% if tournament.location %}<span class="tag">{{ tournament.location }}</span>{% endif %}
+      {% if tournament.prize_pool %}<span class="tag">{{ tournament.prize_pool }}</span>{% endif %}
+    </div>
+  </div>
+  {% if tournament.banner_image %}
+  <div class="match-cover">
+    <img src="{{ tournament.banner_image }}" alt="{{ tournament.name }}">
+  </div>
+  {% endif %}
+</header>
+
+<section class="match-details">
+  <div class="match-detail-card">
+    <h2>Descrição</h2>
+    {% if tournament.description %}
+    <p>{{ tournament.description }}</p>
+    {% else %}
+    <p class="muted">Este torneio ainda não possui uma descrição cadastrada.</p>
+    {% endif %}
+  </div>
+  <div class="match-detail-card">
+    <h2>Agenda</h2>
+    <ul class="match-info-list">
+      {% if tournament.start_date %}<li><span>Início</span><strong>{{ tournament.start_date.strftime('%d/%m/%Y') }}</strong></li>{% endif %}
+      {% if tournament.end_date %}<li><span>Encerramento</span><strong>{{ tournament.end_date.strftime('%d/%m/%Y') }}</strong></li>{% endif %}
+      {% if tournament.location %}<li><span>Local</span><strong>{{ tournament.location }}</strong></li>{% endif %}
+      {% if tournament.organizer %}<li><span>Organização</span><strong>{{ tournament.organizer }}</strong></li>{% endif %}
+    </ul>
+  </div>
+</section>
+
+<section class="collection-section">
+  <div class="section-header">
+    <h2 class="section-title">Partidas do Torneio</h2>
+    <span class="section-count">{{ matches|length }}</span>
+  </div>
+
+  {% if matches %}
+  <div class="match-grid">
+    {% for match in matches %}
+    <a href="{{ url_for('matches.match_view', match_id=match.id) }}" class="match-card">
+      <div class="match-thumb">
+        {% if match.cover_image %}
+        <img src="{{ match.cover_image }}" alt="{{ match.title }}">
+        {% else %}
+        <div class="match-placeholder">
+          <span>{{ match.game or 'Match' }}</span>
+        </div>
+        {% endif %}
+      </div>
+      <div class="match-meta">
+        <span class="match-title">{{ match.title }}</span>
+        {% if match.opponents and match.opponents != match.title %}
+        <span class="match-opponents">{{ match.opponents }}</span>
+        {% endif %}
+        {% if match.stage %}<span class="match-stage">{{ match.stage }}</span>{% endif %}
+        {% if match.scheduled_for %}
+        <span class="match-date">{{ match.scheduled_for.strftime('%d/%m %H:%M') }}</span>
+        {% endif %}
+        <span class="match-league">{{ match.status|capitalize }}</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <h3>Nenhuma partida vinculada</h3>
+    <p>Cadastre novas partidas com o nome do torneio para preencher esta lista automaticamente.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

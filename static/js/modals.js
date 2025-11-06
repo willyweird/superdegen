@@ -1,36 +1,45 @@
 export function initModals(page){
-
   const plusBtn = document.getElementById("action-button");
-  const modalCreate = document.getElementById("modal-create-album");
-  const modalUpload = document.getElementById("modal-upload-photo");
+  const modalCreate = document.getElementById("modal-create-match");
+  const modalResult = document.getElementById("modal-update-result");
 
-  const show = m => m?.classList.add("visible");
-  const hide = m => m?.classList.remove("visible");
+  const show = modal => modal?.classList.add("visible");
+  const hide = modal => modal?.classList.remove("visible");
 
-  plusBtn?.addEventListener("click", () => {
-    page === "album-view" ? show(modalUpload) : show(modalCreate);
-    plusBtn.classList.remove("animate");
-    void plusBtn.offsetWidth;
-    plusBtn.classList.add("animate");
-  });
+  const toggle = () => {
+    if (page === "match-view") {
+      show(modalResult);
+    } else {
+      show(modalCreate);
+    }
+    if (plusBtn) {
+      plusBtn.classList.remove("animate");
+      void plusBtn.offsetWidth;
+      plusBtn.classList.add("animate");
+    }
+  };
+
+  plusBtn?.addEventListener("click", toggle);
+
+  const modals = [modalCreate, modalResult];
 
   document.querySelectorAll("[data-close]").forEach(btn =>
     btn.addEventListener("click", () => {
-      hide(modalCreate);
-      hide(modalUpload);
+      modals.forEach(hide);
     })
   );
 
-  [modalCreate, modalUpload].forEach(modal =>
-    modal?.addEventListener("click", e => {
-      if (e.target === modal) hide(modal);
+  modals.forEach(modal =>
+    modal?.addEventListener("click", event => {
+      if (event.target === modal) {
+        hide(modal);
+      }
     })
   );
 
-  document.addEventListener("keydown", e => {
-    if (e.key === "Escape") {
-      hide(modalCreate);
-      hide(modalUpload);
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      modals.forEach(hide);
     }
   });
 }

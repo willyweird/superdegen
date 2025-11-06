@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}{{ league.name }} - Superdegen{% endblock %}
+{% set page = "league-view" %}
+
+{% block content %}
+<header class="match-hero">
+  <div class="match-hero-info">
+    <h1 class="page-title">{{ league.name }}</h1>
+    <p class="match-opponents">{{ league.region or 'Liga Superdegen' }}</p>
+    <div class="match-tags">
+      {% if league.game %}<span class="tag">{{ league.game }}</span>{% endif %}
+      {% if league.season %}<span class="tag">Season {{ league.season }}</span>{% endif %}
+    </div>
+  </div>
+  {% if league.emblem_image %}
+  <div class="match-cover">
+    <img src="{{ league.emblem_image }}" alt="{{ league.name }}">
+  </div>
+  {% endif %}
+</header>
+
+<section class="match-details">
+  <div class="match-detail-card">
+    <h2>Sobre a Liga</h2>
+    {% if league.description %}
+    <p>{{ league.description }}</p>
+    {% else %}
+    <p class="muted">Adicione uma descrição para destacar a história desta liga.</p>
+    {% endif %}
+  </div>
+  <div class="match-detail-card">
+    <h2>Classificação</h2>
+    {% if standings %}
+    <table class="standings-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Equipe</th>
+          <th>W</th>
+          <th>L</th>
+          <th>D</th>
+          <th>Pts</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for standing in standings %}
+        <tr>
+          <td>{{ standing.position }}</td>
+          <td>{{ standing.team_name }}</td>
+          <td>{{ standing.wins }}</td>
+          <td>{{ standing.losses }}</td>
+          <td>{{ standing.draws }}</td>
+          <td>{{ standing.points }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="muted">Nenhuma classificação registrada até o momento.</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="collection-section">
+  <div class="section-header">
+    <h2 class="section-title">Últimas partidas</h2>
+    <span class="section-count">{{ matches|length }}</span>
+  </div>
+
+  {% if matches %}
+  <div class="match-grid">
+    {% for match in matches %}
+    <a href="{{ url_for('matches.match_view', match_id=match.id) }}" class="match-card">
+      <div class="match-thumb">
+        {% if match.cover_image %}
+        <img src="{{ match.cover_image }}" alt="{{ match.title }}">
+        {% else %}
+        <div class="match-placeholder">
+          <span>{{ match.game or 'Match' }}</span>
+        </div>
+        {% endif %}
+      </div>
+      <div class="match-meta">
+        <span class="match-title">{{ match.title }}</span>
+        {% if match.opponents and match.opponents != match.title %}
+        <span class="match-opponents">{{ match.opponents }}</span>
+        {% endif %}
+        {% if match.scheduled_for %}
+        <span class="match-date">{{ match.scheduled_for.strftime('%d/%m %H:%M') }}</span>
+        {% endif %}
+        <span class="match-league">{{ match.status|capitalize }}</span>
+        {% if match.result %}<span class="match-stage">{{ match.result }}</span>{% endif %}
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <h3>Nenhuma partida encontrada</h3>
+    <p>Cadastre confrontos relacionados a esta liga para manter a comunidade atualizada.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}
