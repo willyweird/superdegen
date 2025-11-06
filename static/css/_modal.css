@@ -158,16 +158,16 @@ input[type="file"].modal-input::-webkit-file-upload-button {
 .close-btn:hover { opacity: .85; }
 
 /* Modal base */
-.napse-modal {
+.superdegen-modal {
   position: fixed; inset: 0;
   display: none; align-items: center; justify-content: center;
   background: rgba(0,0,0,.45);
   backdrop-filter: blur(10px);
   z-index: 3000;
 }
-.napse-modal.show { display: flex; }
+.superdegen-modal.show { display: flex; }
 
-.napse-modal-card {
+.superdegen-modal-card {
   width: min(520px, 92vw);
   background: var(--glass);
   border: 1px solid var(--glass-line);
@@ -194,21 +194,21 @@ input[type="file"].modal-input::-webkit-file-upload-button {
 }
 .chooser-grid img:hover { transform: scale(.97); opacity:.9; }
 
-.napse-modal .primary {
+.superdegen-modal .primary {
   padding:10px 14px; border-radius:12px; border:1px solid var(--glass-line);
   background: var(--glass);
 }
 .close-modal { border:none; background:none; opacity:.7; }
 
 /* Drawer lateral (rename) */
-.napse-drawer {
+.superdegen-drawer {
   position: fixed; inset: 0;
   background: rgba(0,0,0,.25);
   backdrop-filter: blur(6px);
   display: none;
   z-index: 3000;
 }
-.napse-drawer.show { display:block; }
+.superdegen-drawer.show { display:block; }
 
 .drawer-content {
   position:absolute; top:0; right:0; height:100%; width:min(420px, 92vw);

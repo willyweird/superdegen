@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1" />
-  <title>{% block title %}NapSe{% endblock %}</title>
+  <title>{% block title %}Superdegen{% endblock %}</title>
 
   <!-- Fonte Inter + Inter Tight -->
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <script>
-    const saved = localStorage.getItem("napse-theme") || "dark";
+    const saved = localStorage.getItem("superdegen-theme") || "dark";
     document.documentElement.dataset.theme = saved;
   </script>
 
@@ -28,7 +28,7 @@
   <!-- NAV SUPERIOR -->
   <nav class="navbar">
     <div class="logo">
-      <a href="{{ url_for('home.home_page') }}">napse</a>
+      <a href="{{ url_for('home.home_page') }}">superdegen</a>
     </div>
 
     {% if g.user %}
